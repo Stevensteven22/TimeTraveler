@@ -28,8 +28,4 @@
   <ItemGroup>
     <ProjectReference Include="..\TimeTraveler.Libary\TimeTraveler.Libary.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="21312\" />
-  </ItemGroup>
 </Project>
