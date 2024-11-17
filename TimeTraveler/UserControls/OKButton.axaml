@@ -1,0 +1,43 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:controls="using:TimeTraveler.UserControls">
+
+  <!--
+    Additional resources 
+    Using Control Themes:
+         https://docs.avaloniaui.net/docs/basics/user-interface/styling/control-themes
+    Using Theme Variants:
+         https://docs.avaloniaui.net/docs/guides/styles-and-resources/how-to-use-theme-variants
+  -->
+
+	<ControlTheme x:Key="{x:Type controls:OKButton}" TargetType="controls:OKButton">
+		<Setter Property="Template">
+
+			<ControlTemplate TargetType="Button">
+				<Border x:Name="PART_ButtonBorder" Padding="20" Background="#E9E5D9" Width="300" CornerRadius="20">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="6*"/>
+						</Grid.ColumnDefinitions>
+						<Border  Background="#393229" Width="40" Height="40" CornerRadius="20">
+							<Border>
+								<Border.Background>
+									<ImageBrush Source="\Assets\进度条-对勾.png" Stretch="UniformToFill"/>
+								</Border.Background>
+							</Border>
+
+						</Border>
+						<TextBlock Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" Grid.Column="1" HorizontalAlignment="Center" FontSize="25" VerticalAlignment="Center"/>
+					</Grid>
+				</Border>
+			</ControlTemplate>
+
+		</Setter>
+
+		<Style Selector="^:pointerover/template/Border#PART_ButtonBorder">
+			<Setter Property="Background" Value="AliceBlue"/>
+		</Style>
+
+	</ControlTheme>
+</ResourceDictionary>
