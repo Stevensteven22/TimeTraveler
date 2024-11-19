@@ -23,6 +23,7 @@
     <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="1.5.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Semi.Avalonia" Version="11.2.0" />
+    <PackageReference Include="SkiaSharp" Version="2.88.9" />
   </ItemGroup>
 
   <ItemGroup>
