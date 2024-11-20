@@ -19,9 +19,9 @@ using CommunityToolkit.Mvvm.Input;
         private readonly IMazeService _mazeService;
         private string _gameStatus;
         private string _maze;
-        private int _playerX;
-        private int _playerY;
-        private bool isOK = false;
+        public int _playerX;
+        public int _playerY;
+        public bool isOK = false;
 
         public GameTwoViewModel(IMazeService mazeService)
         {
@@ -51,7 +51,7 @@ using CommunityToolkit.Mvvm.Input;
         public IRelayCommand MoveLeftCommand { get; }
         public IRelayCommand MoveRightCommand { get; }
 
-        private void StartNewGame()
+        public void StartNewGame()
         {
             _mazeService.GenerateMaze();
             _playerX = 1;  // 玩家初始位置
@@ -65,12 +65,20 @@ using CommunityToolkit.Mvvm.Input;
             // 获取当前的迷宫表示，并将玩家位置标识为 "P"
             var mazeRepresentation = _mazeService.GetMazeRepresentation();
 
+            // Check if the maze representation is null or empty
+            if (string.IsNullOrEmpty(mazeRepresentation))
+            {
+                GameStatus = "迷宫加载失败！";
+                return;
+            }
+
             // 假设玩家位置的符号为 "P"
             var mazeArray = mazeRepresentation.Split('\n');
             mazeArray[_playerY] = mazeArray[_playerY].Remove(_playerX, 1).Insert(_playerX, "P");
 
             Maze = string.Join("\n", mazeArray);
         }
+
 
         private void MoveUp() => MakeMove(0, -1);
         private void MoveDown() => MakeMove(0, 1);
@@ -83,10 +91,11 @@ using CommunityToolkit.Mvvm.Input;
             int newY = _playerY + dy;
 
             
-             if (newX==7&&newY==9)
+             if (newX==8&&newY==9)
              {
                  GameStatus = "恭喜你通关！！";
                  isOK = true;
+                 StartNewGame();
                  GoToResultView();
              }
              

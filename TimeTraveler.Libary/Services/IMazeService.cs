@@ -18,8 +18,8 @@ public interface IMazeService
 public class MazeService : IMazeService
 {
     private char[,] _maze;
-    private int _playerX;
-    private int _playerY;
+    public int _playerX;
+    public int _playerY;
 
     public void GenerateMaze()
     {
@@ -27,15 +27,15 @@ public class MazeService : IMazeService
         _maze = new char[10, 10]
         {
             { '#', '#', '#', '#', '#', '#', '#', '#', '#', '#' },
-            { '#', ' ', ' ', ' ', ' ','#', ' ', ' ', ' ', '#' },
-            { '#', ' ',' ', '#', '#', ' ', '#', '#', ' ', '#' },
-            { '#', ' ', ' ','#', ' ', ' ', ' ','#', ' ', '#' },
-            { '#', ' ', '#', '#',' ', ' ', ' ', '#', ' ', '#' },
-            { '#', ' ', '#', ' ', '#', ' ', ' ','#', ' ', '#' },
-            { '#', ' ', ' ', ' ',' ', '#', '#', '#', ' ', '#' },
-            { '#', ' ', '#', ' ', ' ',' ', ' ', ' ', ' ', '#' },
-            { '#', ' ', '#', '#',' ', '#', ' ', ' ', ' ', '#' },
-            { '#', '#', '#', '#', '#', '#', '#', ' ','#', '#' }
+            { '#', ' ', ' ', ' ', ' ','#', ' ', ' ', ' ', '#', },
+            { '#', ' ',' ', '#', ' ', ' ', '#', '#', ' ', '#' ,},
+            { '#', ' ', ' ','#', ' ', ' ', ' ','#', ' ', '#' ,},
+            { '#', ' ', '#', '#',' ', ' ', ' ', ' ', ' ', '#' ,},
+            { '#', ' ', '#', ' ', '#', ' ', ' ','#', ' ', '#' ,},
+            { '#', ' ', ' ', ' ',' ', '#', '#', '#', '#', '#' ,},
+            { '#', ' ', '#', ' ', ' ',' ', ' ', ' ', ' ', '#' ,},
+            { '#', ' ', '#', '#',' ', '#', ' ', ' ', ' ', '#' ,},
+            { '#', '#', '#', '#', '#', '#', '#', '#',' ', '#' ,}
         };
 
         // 设置玩家的初始位置
@@ -45,6 +45,12 @@ public class MazeService : IMazeService
 
     public string GetMazeRepresentation()
     {
+        if (_maze == null)
+        {
+            // Return an empty maze or default value if _maze is not initialized
+            return string.Empty;
+        }
+
         var sb = new StringBuilder();
         for (int i = 0; i < _maze.GetLength(0); i++)
         {
@@ -56,6 +62,7 @@ public class MazeService : IMazeService
         }
         return sb.ToString();
     }
+
 
     public bool IsMoveValid(int x, int y)
     {

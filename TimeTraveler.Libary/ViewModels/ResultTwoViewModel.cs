@@ -32,7 +32,7 @@ public partial class ResultTwoViewModel : ViewModelBase
             }else 
             {
                 IsOK = false;
-                Result = "时间旅行者似乎没有找到那块神秘的时之石...";
+                Result = "时间旅行者似乎无法破解书中的奥秘.......";
                 WeakReferenceMessenger.Default.Send<object, string>(new object(), "OnGameFailed");
             }
         });

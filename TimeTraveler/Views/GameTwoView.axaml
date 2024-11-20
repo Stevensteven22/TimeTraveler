@@ -40,12 +40,14 @@
                    HorizontalAlignment="Center" 
                    VerticalAlignment="Top" 
                    Margin="10" 
-                   FontWeight="Bold"/>
+                   FontWeight="Bold"
+                   Foreground="DarkBlue"/>
+
         
         
         <TextBlock Grid.Row="1" 
                    Text="{Binding Maze}" 
-                   FontSize="60" FontWeight="Bold"
+                   FontSize="55" FontWeight="Bold"
                    HorizontalAlignment="Center" 
                    VerticalAlignment="Center" 
                    FontFamily="Courier New" 
@@ -66,11 +68,11 @@
                     HorizontalAlignment="Center" 
                     VerticalAlignment="Bottom" 
                     Margin="10">
-            <Button  Background="#E9E5D9" Content="↑" Command="{Binding MoveUpCommand}" Margin="5"/>
-            <Button  Background="#E9E5D9" Content="←" Command="{Binding MoveLeftCommand}" Margin="5"/>
-            <Button  Background="#E9E5D9" Content="↓" Command="{Binding MoveDownCommand}" Margin="5"/>
-            <Button  Background="#E9E5D9" Content="→" Command="{Binding MoveRightCommand}" Margin="10"/>
-            <Button  Background="#E9E5D9" Content="放弃" Command="{Binding QuitCommand}" Margin="5"/>
+            <Button  Background="#E9E5D9" Content="↑" Command="{Binding MoveUpCommand}" Margin="5"  Width="80" Height="80" FontSize="20"/>
+            <Button  Background="#E9E5D9" Content="←" Command="{Binding MoveLeftCommand}" Margin="5"  Width="80" Height="80" FontSize="20"/>
+            <Button  Background="#E9E5D9" Content="↓" Command="{Binding MoveDownCommand}" Margin="5"  Width="80" Height="80" FontSize="20"/>
+            <Button  Background="#E9E5D9" Content="→" Command="{Binding MoveRightCommand}" Margin="10"  Width="80" Height="80" FontSize="20"/>
+            <Button  Background="#E9E5D9" Content="放弃" Command="{Binding QuitCommand}" Margin="5"  Width="80" Height="80" FontSize="20"/>
         </StackPanel>
     </Grid>
     

@@ -14,7 +14,7 @@
         <Border.Background>
             <ImageBrush
                 Opacity="0.5"
-                Source="\Assets\BackView.jpg"
+                Source="\Assets\2_背景.jpeg"
                 Stretch="UniformToFill" />
         </Border.Background>
         <Border>
@@ -35,15 +35,15 @@
                             <Border.Background>
                                 <ImageBrush
                                     Opacity="0.3"
-                                    Source="\Assets\t1.png"
+                                    Source="\Assets\2_背景.jpeg"
                                     Stretch="UniformToFill" />
                             </Border.Background>
 
                             <StackPanel>
                                 <Label
-                                    Content="时之石"
+                                    Content="过去的谜团"
                                     FontSize="50"
-                                    Foreground="#c7c0a6"
+                                    Foreground="#ac0a"
                                     HorizontalAlignment="Center" />
                                 <Label
                                     Content="第二章"
