@@ -15,6 +15,10 @@ public class ChapterNavigationService : IChapterNavigationService
             ViewType.GameView => ServiceLocator.Current.GameViewModel,
             ViewType.ResultView => ServiceLocator.Current.ResultViewModel,
             ViewType.ReturnView => ServiceLocator.Current.ReturnViewModel,
+            
+            ViewType.BackgroundThreeView => ServiceLocator.Current.BackgroundThreeViewModel,
+            ViewType.GameThreeView => ServiceLocator.Current.GameThreeViewModel,
+            
             //在这里扩展章节：继续添加要导航的页面
             _ => throw new Exception("未知的视图。"),
         };
@@ -63,6 +67,12 @@ public class ChapterNavigationService : IChapterNavigationService
             _menuItemsStack.Peek().IsEnabled = false;
         }
         if (_menuItemsQueue.Count > 0 && _menuItemsQueue.Peek().Id == 1)
+        {
+            var item = _menuItemsQueue.Dequeue();
+            item.IsEnabled = true;
+            _menuItemsStack.Push(item);
+        }
+        if (_menuItemsQueue.Count > 0 && _menuItemsQueue.Peek().Id == 3)
         {
             var item = _menuItemsQueue.Dequeue();
             item.IsEnabled = true;

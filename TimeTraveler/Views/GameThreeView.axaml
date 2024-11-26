@@ -1,0 +1,135 @@
+﻿<UserControl
+    FontFamily="{StaticResource MyFont}"
+    d:DataContext="{Binding GameThreeViewModel, Source={StaticResource ServiceLocator}}"
+    d:DesignHeight="800"
+    d:DesignWidth="1200"
+    mc:Ignorable="d"
+    x:Class="TimeTraveler.Views.GameThreeView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Avalonia.Xaml.Interactivity"
+    xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:u="https://irihi.tech/ursa"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+
+    <Canvas Focusable="True">
+
+        <!-- 小球 -->
+        <Ellipse Width="{Binding BallRadius, Mode=OneWay}" 
+                 Height="{Binding BallRadius, Mode=OneWay}" 
+                 Fill="Yellow"
+                 Canvas.Left="{Binding BallX, Mode=OneWay}" 
+                 Canvas.Top="{Binding BallY, Mode=OneWay}" />
+        
+        <!-- 障碍物 -->
+        <Rectangle Width="{Binding ObstacleWidth1}" 
+                   Height="{Binding ObstacleHeight1}" 
+                   Fill="Green"
+                   Canvas.Left="{Binding ObstacleX1}" 
+                   Canvas.Top="{Binding ObstacleY1}" />
+        <Rectangle Width="{Binding ObstacleWidth2}" 
+                   Height="{Binding ObstacleHeight2}" 
+                   Fill="Green"
+                   Canvas.Left="{Binding ObstacleX2}" 
+                   Canvas.Top="{Binding ObstacleY2}" />
+        <Rectangle Width="{Binding ObstacleWidth3}" 
+                   Height="{Binding ObstacleHeight3}" 
+                   Fill="Green"
+                   Canvas.Left="{Binding ObstacleX3}" 
+                   Canvas.Top="{Binding ObstacleY3}" />
+        <Rectangle Width="{Binding ObstacleWidth4}" 
+                   Height="{Binding ObstacleHeight4}" 
+                   Fill="Green"
+                   Canvas.Left="{Binding ObstacleX4}" 
+                   Canvas.Top="{Binding ObstacleY4}" />
+
+        <!-- Flap 按钮 -->
+        <Button Content="Flap" 
+                Command="{Binding FlapCommand}" 
+                Width="120" 
+                Height="50" 
+                Canvas.Left="50" 
+                Canvas.Top="350"
+                Background="#58d5c9" 
+                Foreground="White"
+                FontSize="16"
+                BorderBrush="White" 
+                BorderThickness="2" 
+                CornerRadius="10" 
+                Padding="10"
+                VerticalAlignment="Center">
+            <Button.Styles>
+                <Style Selector="Button">
+                    <Setter Property="Cursor" Value="Hand" />
+                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                    <Setter Property="TextBlock.TextWrapping" Value="NoWrap"/>
+                </Style>
+            </Button.Styles>
+        </Button>
+
+        <!-- 可选：为碰撞区域添加边框 -->
+        <Rectangle Width="{Binding ObstacleWidth4}" 
+                   Height="{Binding ObstacleHeight4}" 
+                   Stroke="Red" 
+                   StrokeThickness="2" 
+                   Canvas.Left="{Binding ObstacleX4}" 
+                   Canvas.Top="{Binding ObstacleY4}" />
+
+        <Rectangle Width="{Binding ObstacleWidth3}" 
+                   Height="{Binding ObstacleHeight3}" 
+                   Stroke="Red" 
+                   StrokeThickness="2" 
+                   Canvas.Left="{Binding ObstacleX3}" 
+                   Canvas.Top="{Binding ObstacleY3}" />
+        
+        <Rectangle Width="{Binding ObstacleWidth2}" 
+                   Height="{Binding ObstacleHeight2}" 
+                   Stroke="Red" 
+                   StrokeThickness="2" 
+                   Canvas.Left="{Binding ObstacleX2}" 
+                   Canvas.Top="{Binding ObstacleY2}" />
+
+        <Rectangle Width="{Binding ObstacleWidth1}" 
+                   Height="{Binding ObstacleHeight1}" 
+                   Stroke="Red" 
+                   StrokeThickness="2" 
+                   Canvas.Left="{Binding ObstacleX1}" 
+                   Canvas.Top="{Binding ObstacleY1}" />
+
+        <!-- Game Over 提示 -->
+        <TextBlock Text="Game Over" 
+                   FontSize="32" 
+                   Foreground="Red" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" 
+                   IsVisible="{Binding IsGameOver}" 
+                   FontWeight="Bold" />
+
+        <!-- 重新开始按钮 -->
+        <Button Content="Restart" 
+                Command="{Binding RestartCommand}" 
+                Width="120" 
+                Height="50" 
+                Canvas.Left="350" 
+                Canvas.Top="350"
+                IsVisible="{Binding IsGameOver}"
+                Background="#ff6f61" 
+                Foreground="White"
+                FontSize="16"
+                BorderBrush="White" 
+                BorderThickness="2" 
+                CornerRadius="10" 
+                Padding="10"
+                VerticalAlignment="Center">
+            <Button.Styles>
+                <Style Selector="Button">
+                    <Setter Property="Cursor" Value="Hand" />
+                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                    <Setter Property="TextBlock.TextWrapping" Value="NoWrap"/>
+                </Style>
+            </Button.Styles>
+        </Button>
+    </Canvas>
+</UserControl>

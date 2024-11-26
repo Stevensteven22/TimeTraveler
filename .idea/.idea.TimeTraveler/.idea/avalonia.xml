@@ -14,7 +14,10 @@
         <entry key="TimeTraveler/UserControls/ChapterTimeLineItem.axaml" value="TimeTraveler/TimeTraveler.csproj" />
         <entry key="TimeTraveler/UserControls/OKButton.axaml" value="TimeTraveler/TimeTraveler.csproj" />
         <entry key="TimeTraveler/UserControls/UserControlsStyle.axaml" value="TimeTraveler/TimeTraveler.csproj" />
+        <entry key="TimeTraveler/Views/BackgrondThreeView.axaml" value="TimeTraveler/TimeTraveler.csproj" />
+        <entry key="TimeTraveler/Views/BackgroundThreeView.axaml" value="TimeTraveler/TimeTraveler.csproj" />
         <entry key="TimeTraveler/Views/BackgroundView.axaml" value="TimeTraveler/TimeTraveler.csproj" />
+        <entry key="TimeTraveler/Views/GameThreeView.axaml" value="TimeTraveler/TimeTraveler.csproj" />
         <entry key="TimeTraveler/Views/GameView.axaml" value="TimeTraveler/TimeTraveler.csproj" />
         <entry key="TimeTraveler/Views/InitializationView.axaml" value="TimeTraveler/TimeTraveler.csproj" />
         <entry key="TimeTraveler/Views/MainView.axaml" value="TimeTraveler/TimeTraveler.csproj" />
