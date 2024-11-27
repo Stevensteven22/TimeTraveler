@@ -11,125 +11,89 @@
     xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:u="https://irihi.tech/ursa"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:TimeTraveler.Converters">
+
+   
 
     <Canvas Focusable="True">
+        <!-- 背景图 -->
+        <Canvas.Background>
+            <ImageBrush Source="/Assets/飞行背景图.png" Stretch="UniformToFill" />
+        </Canvas.Background>
 
         <!-- 小球 -->
-        <Ellipse Width="{Binding BallRadius, Mode=OneWay}" 
-                 Height="{Binding BallRadius, Mode=OneWay}" 
-                 Fill="Yellow"
-                 Canvas.Left="{Binding BallX, Mode=OneWay}" 
-                 Canvas.Top="{Binding BallY, Mode=OneWay}" />
-        
+        <Image Source="/Assets/Flyer.png" 
+               Width="{Binding BallWidth}" 
+               Height="{Binding BallHeight}" 
+               Canvas.Left="{Binding BallX}" 
+               Canvas.Top="{Binding BallY}" />
+
         <!-- 障碍物 -->
-        <Rectangle Width="{Binding ObstacleWidth1}" 
-                   Height="{Binding ObstacleHeight1}" 
-                   Fill="Green"
-                   Canvas.Left="{Binding ObstacleX1}" 
-                   Canvas.Top="{Binding ObstacleY1}" />
-        <Rectangle Width="{Binding ObstacleWidth2}" 
-                   Height="{Binding ObstacleHeight2}" 
-                   Fill="Green"
-                   Canvas.Left="{Binding ObstacleX2}" 
-                   Canvas.Top="{Binding ObstacleY2}" />
-        <Rectangle Width="{Binding ObstacleWidth3}" 
-                   Height="{Binding ObstacleHeight3}" 
-                   Fill="Green"
-                   Canvas.Left="{Binding ObstacleX3}" 
-                   Canvas.Top="{Binding ObstacleY3}" />
-        <Rectangle Width="{Binding ObstacleWidth4}" 
-                   Height="{Binding ObstacleHeight4}" 
-                   Fill="Green"
-                   Canvas.Left="{Binding ObstacleX4}" 
-                   Canvas.Top="{Binding ObstacleY4}" />
+        <Image Source="/Assets/神像2.png" 
+               Width="{Binding ObstacleWidth1}" 
+               Height="{Binding ObstacleHeight1}" 
+               Canvas.Left="{Binding ObstacleX1}" 
+               Canvas.Top="{Binding ObstacleY1}" />
+        <Image Source="/Assets/神像.png" 
+               Width="{Binding ObstacleWidth2}" 
+               Height="{Binding ObstacleHeight2}" 
+               Canvas.Left="{Binding ObstacleX2}" 
+               Canvas.Top="{Binding ObstacleY2}" />
+        <Image Source="/Assets/史莱姆.png" 
+               Width="{Binding ObstacleWidth3}" 
+               Height="{Binding ObstacleHeight3}" 
+               Canvas.Left="{Binding ObstacleX3}" 
+               Canvas.Top="{Binding ObstacleY3}" />
+        <Image Source="/Assets/激光.png" 
+               Width="{Binding ObstacleWidth4}" 
+               Height="{Binding ObstacleHeight4}" 
+               Canvas.Left="{Binding ObstacleX4}" 
+               Canvas.Top="{Binding ObstacleY4}" />
 
-        <!-- Flap 按钮 -->
-        <Button Content="Flap" 
-                Command="{Binding FlapCommand}" 
-                Width="120" 
-                Height="50" 
-                Canvas.Left="50" 
-                Canvas.Top="350"
-                Background="#58d5c9" 
-                Foreground="White"
-                FontSize="16"
-                BorderBrush="White" 
-                BorderThickness="2" 
-                CornerRadius="10" 
-                Padding="10"
-                VerticalAlignment="Center">
-            <Button.Styles>
-                <Style Selector="Button">
-                    <Setter Property="Cursor" Value="Hand" />
-                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
-                    <Setter Property="TextBlock.TextWrapping" Value="NoWrap"/>
-                </Style>
-            </Button.Styles>
-        </Button>
+       <!-- Flap 按钮 -->
+<Button Content="Flap" 
+        Command="{Binding FlapCommand}" 
+        Canvas.Left="50" 
+        Canvas.Top="350">
+    <Button.Styles>
+        <Style Selector="Button">
+            <Setter Property="Background" Value="#58d5c9" /> <!-- 设置按钮背景色 -->
+            <Setter Property="Foreground" Value="White" /> <!-- 设置按钮文字颜色 -->
+            <Setter Property="FontSize" Value="16" /> <!-- 设置字体大小 -->
+            <Setter Property="Padding" Value="10" /> <!-- 设置按钮内边距 -->
+            <Setter Property="CornerRadius" Value="10" /> <!-- 设置按钮圆角 -->
+            <Setter Property="BorderBrush" Value="White" /> <!-- 设置按钮边框颜色 -->
+            <Setter Property="BorderThickness" Value="2" /> <!-- 设置按钮边框厚度 -->
+            <Setter Property="Cursor" Value="Hand" /> <!-- 鼠标悬停时显示手指形状 -->
+            <Setter Property="Height" Value="50" /> <!-- 设置按钮高度 -->
+            <Setter Property="Width" Value="120" /> <!-- 设置按钮宽度 -->
+            <Setter Property="FontWeight" Value="Bold" /> <!-- 设置字体加粗 -->
+        </Style>
+    </Button.Styles>
+</Button>
 
-        <!-- 可选：为碰撞区域添加边框 -->
-        <Rectangle Width="{Binding ObstacleWidth4}" 
-                   Height="{Binding ObstacleHeight4}" 
-                   Stroke="Red" 
-                   StrokeThickness="2" 
-                   Canvas.Left="{Binding ObstacleX4}" 
-                   Canvas.Top="{Binding ObstacleY4}" />
-
-        <Rectangle Width="{Binding ObstacleWidth3}" 
-                   Height="{Binding ObstacleHeight3}" 
-                   Stroke="Red" 
-                   StrokeThickness="2" 
-                   Canvas.Left="{Binding ObstacleX3}" 
-                   Canvas.Top="{Binding ObstacleY3}" />
-        
-        <Rectangle Width="{Binding ObstacleWidth2}" 
-                   Height="{Binding ObstacleHeight2}" 
-                   Stroke="Red" 
-                   StrokeThickness="2" 
-                   Canvas.Left="{Binding ObstacleX2}" 
-                   Canvas.Top="{Binding ObstacleY2}" />
-
-        <Rectangle Width="{Binding ObstacleWidth1}" 
-                   Height="{Binding ObstacleHeight1}" 
-                   Stroke="Red" 
-                   StrokeThickness="2" 
-                   Canvas.Left="{Binding ObstacleX1}" 
-                   Canvas.Top="{Binding ObstacleY1}" />
-
-        <!-- Game Over 提示 -->
-        <TextBlock Text="Game Over" 
-                   FontSize="32" 
-                   Foreground="Red" 
-                   HorizontalAlignment="Center" 
-                   VerticalAlignment="Center" 
-                   IsVisible="{Binding IsGameOver}" 
-                   FontWeight="Bold" />
-
-        <!-- 重新开始按钮 -->
-        <Button Content="Restart" 
-                Command="{Binding RestartCommand}" 
-                Width="120" 
-                Height="50" 
-                Canvas.Left="350" 
-                Canvas.Top="350"
-                IsVisible="{Binding IsGameOver}"
-                Background="#ff6f61" 
-                Foreground="White"
-                FontSize="16"
-                BorderBrush="White" 
-                BorderThickness="2" 
-                CornerRadius="10" 
-                Padding="10"
-                VerticalAlignment="Center">
-            <Button.Styles>
-                <Style Selector="Button">
-                    <Setter Property="Cursor" Value="Hand" />
-                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
-                    <Setter Property="TextBlock.TextWrapping" Value="NoWrap"/>
-                </Style>
-            </Button.Styles>
-        </Button>
+<!-- Next 按钮 -->
+<Button Content="Next" 
+        IsVisible="{Binding IsGameOver}"
+        Command="{Binding GoToResultThreeViewCommand}"
+        Canvas.Left="180" 
+        Canvas.Top="350"> <!-- 确保两个按钮的 Canvas.Top 值相同，以保证平行 -->
+    <Button.Styles>
+        <Style Selector="Button">
+            <Setter Property="Background" Value="#58d5c9" /> <!-- 设置按钮背景色 -->
+            <Setter Property="Foreground" Value="White" /> <!-- 设置按钮文字颜色 -->
+            <Setter Property="FontSize" Value="16" /> <!-- 设置字体大小 -->
+            <Setter Property="Padding" Value="10" /> <!-- 设置按钮内边距 -->
+            <Setter Property="CornerRadius" Value="10" /> <!-- 设置按钮圆角 -->
+            <Setter Property="BorderBrush" Value="White" /> <!-- 设置按钮边框颜色 -->
+            <Setter Property="BorderThickness" Value="2" /> <!-- 设置按钮边框厚度 -->
+            <Setter Property="Cursor" Value="Hand" /> <!-- 鼠标悬停时显示手指形状 -->
+            <Setter Property="Height" Value="50" /> <!-- 设置按钮高度 -->
+            <Setter Property="Width" Value="120" /> <!-- 设置按钮宽度 -->
+            <Setter Property="FontWeight" Value="Bold" /> <!-- 设置字体加粗 -->
+        </Style>
+    </Button.Styles>
+</Button>
     </Canvas>
 </UserControl>

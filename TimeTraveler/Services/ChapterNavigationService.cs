@@ -18,16 +18,25 @@ public class ChapterNavigationService : IChapterNavigationService
             
             ViewType.BackgroundThreeView => ServiceLocator.Current.BackgroundThreeViewModel,
             ViewType.GameThreeView => ServiceLocator.Current.GameThreeViewModel,
+            ViewType.ResultThreeView => ServiceLocator.Current.ResultThreeViewModel,
+            ViewType.ReturnThreeView => ServiceLocator.Current.ReturnThreeViewModel,
             
             //在这里扩展章节：继续添加要导航的页面
             _ => throw new Exception("未知的视图。"),
         };
-
+        
         if (parameter is not null)
         {
             viewModel.SetParameter(parameter);
         }
 
+        // 在这里确保每次导航时调用 OnNavigatedTo
+        if (viewModel is GameThreeViewModel gameThreeViewModel)
+        {
+            gameThreeViewModel.RestartCommand.Execute(null);
+
+        }
+        
         ServiceLocator.Current.MainViewModel.Content = viewModel;
     }
 

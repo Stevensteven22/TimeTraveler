@@ -22,7 +22,9 @@
         <entry key="TimeTraveler/Views/InitializationView.axaml" value="TimeTraveler/TimeTraveler.csproj" />
         <entry key="TimeTraveler/Views/MainView.axaml" value="TimeTraveler/TimeTraveler.csproj" />
         <entry key="TimeTraveler/Views/MainWindow.axaml" value="TimeTraveler/TimeTraveler.csproj" />
+        <entry key="TimeTraveler/Views/ResultThreeView.axaml" value="TimeTraveler/TimeTraveler.csproj" />
         <entry key="TimeTraveler/Views/ResultView.axaml" value="TimeTraveler/TimeTraveler.csproj" />
+        <entry key="TimeTraveler/Views/ReturnThreeView.axaml" value="TimeTraveler/TimeTraveler.csproj" />
         <entry key="TimeTraveler/Views/ReturnView.axaml" value="TimeTraveler/TimeTraveler.csproj" />
       </map>
     </option>

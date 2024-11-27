@@ -1,41 +1,39 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using TimeTraveler.Libary.Helpers;
-using TimeTraveler.Libary.Models;
 
 namespace TimeTraveler.Libary.ViewModels;
 
-public partial class ResultViewModel : ViewModelBase
+public partial class ResultThreeViewModel : ViewModelBase
 {
     [ObservableProperty]
     private string _result;
 
     [RelayCommand]
-    private void GoToReturnView()
+    private void GoToReturnThreeView()
     {
-        Console.WriteLine("Go To Return View");
+        Console.WriteLine("Go to return three view");
         WeakReferenceMessenger.Default.Send<object, string>(3, "OnForwardNavigation");
     }
 
-    public ResultViewModel()
+    public ResultThreeViewModel()
     {
         OnLoadedCommand = new AsyncRelayCommand(OnLoadedAsync);
         WeakReferenceMessenger.Default.Register<object, string>(this, "OnResultSubmitted", (sender, message) =>
         {
             if (message is bool isSucceed && isSucceed)
             {
-                Console.WriteLine("one ok");
+                
+                Console.WriteLine("Three ok");
                 IsOK = true;
-                Result = "  **悬念**:这块神秘的时之石到底是什么?它带艾琳去了哪里?而那个警告声里的“代价”又指的是什么?";
+                Result = "艾琳凭借着坚韧的意志和敏捷的动作，终于避开了最后一波障碍，冲破了风的禁锢。当她再次睁开眼时，风暴已经消散，面前的结界也渐渐消失。她感到一股温暖的气流拂过她的脸庞，风神的考验终于结束。";
                 WeakReferenceMessenger.Default.Send<object, string>(new object(), "OnGameSucceed");
             }else 
             {
-                Console.WriteLine("one false");
+                Console.WriteLine("Three false");
                 IsOK = false;
-                Result = "时间旅行者似乎没有找到那块神秘的时之石...";
+                Result = "时间旅行者似乎没有通过风之试炼...";
                 WeakReferenceMessenger.Default.Send<object, string>(new object(), "OnGameFailed");
             }
         });

@@ -5,9 +5,9 @@ using Avalonia.Media;
 
 namespace TimeTraveler.Views;
 
-public partial class BackgroundThreeView : UserControl
+public partial class ResultThreeView : UserControl
 {
-    public BackgroundThreeView()
+    public ResultThreeView()
     {
         InitializeComponent();
     }
@@ -17,11 +17,7 @@ public partial class BackgroundThreeView : UserControl
         var button = sender as Button;
         if (button != null)
         {
-
-
             button.Background = Brushes.AliceBlue;
-
-
         }
     }
 
@@ -31,7 +27,6 @@ public partial class BackgroundThreeView : UserControl
         if (button != null)
         {
             button.Background = new SolidColorBrush(Color.Parse("#E9E5D9"));
-
         }
     }
 }

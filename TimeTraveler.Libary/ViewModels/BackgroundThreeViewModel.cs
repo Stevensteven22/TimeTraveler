@@ -14,6 +14,7 @@ public partial class BackgroundThreeViewModel : ViewModelBase
     [RelayCommand]
     public void GoToGameThreeView()
     {
+        Console.WriteLine("Going to Game Three View");
         WeakReferenceMessenger.Default.Send<object, string>(1, "OnForwardNavigation");
     }
 }

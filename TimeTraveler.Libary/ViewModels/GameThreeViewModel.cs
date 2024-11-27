@@ -1,14 +1,16 @@
 ﻿using System.Windows.Input;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using TimeTraveler.Libary.Models;
 using TimeTraveler.Libary.Services;
 
 namespace TimeTraveler.Libary.ViewModels;
 
-public class GameThreeViewModel :ViewModelBase
+public partial class GameThreeViewModel :ViewModelBase
 {
-     private bool _isGameOver = false; // 游戏是否结束的标志
+        private bool _isGameWon = false; // 游戏是否胜利
+        private bool _isGameOver = false; // 游戏是否结束（碰撞或胜利）
         private  Flyer _ball;
         private Obstacle _obstacle1;
         private Obstacle _obstacle2;
@@ -16,12 +18,32 @@ public class GameThreeViewModel :ViewModelBase
         private Obstacle _obstacle4;
         private readonly IFlyService _flyService;
         private DispatcherTimer _timer;
+        private int _frameCounter = 0; // 计数器，用于跟踪帧数
+        private const double FrameDuration = 20; // 每帧16ms，即60FPS
+        private const double SecondsPerFrame = FrameDuration / 1000.0; // 每帧的秒数
+        private double _timeElapsedInSeconds = 0.0; // 游戏已进行的时间（秒）
+        private const double GameDurationInSeconds = 10.0; // 游戏持续时长（秒）
+
+        
         
         // 硬编码的窗口宽高
         private const double WindowWidth = 1200;
         private const double WindowHeight = 800;
-
-        // 公开属性，供 UI 绑定
+        
+        
+        public bool IsGameWon
+        {
+            get => _isGameWon;
+            set
+            {
+                if (_isGameWon != value)
+                {
+                    _isGameWon = value;
+                    OnPropertyChanged(nameof(IsGameWon));
+                }
+            }
+        }
+        
         public bool IsGameOver
         {
             get => _isGameOver;
@@ -30,10 +52,11 @@ public class GameThreeViewModel :ViewModelBase
                 if (_isGameOver != value)
                 {
                     _isGameOver = value;
-                    OnPropertyChanged(nameof(IsGameOver));
+                    OnPropertyChanged(nameof(IsGameOver)); // 用于显示/隐藏游戏结束按钮
                 }
             }
         }
+        
 
         public double ObstacleX1 => _obstacle1.X;
         public double ObstacleY1 => _obstacle1.Y;
@@ -58,60 +81,90 @@ public class GameThreeViewModel :ViewModelBase
 
         public double BallX => _ball.X;
         public double BallY => _ball.Y;
-        public double BallRadius => _ball.Radius;
+        public double BallWidth => _ball.Width;
+        public double BallHeight => _ball.Height;
+        
+        // 重置游戏状态
+        private void ResetGame()
+        {
+            _ball = new Flyer(100, 100, 100, 100); // 初始化小球
+            _obstacle1 = new Obstacle(1200, 500, 100, 300);
+            _obstacle2 = new Obstacle(1200, 600, 100, 200);
+            _obstacle3 = new Obstacle(1200, 650, 150, 150);
+            _obstacle4 = new Obstacle(1200, 0, 1000, 42);
 
+            _timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(20) // 60FPS
+            };
+            _timer.Tick += (sender, e) => TimerTick();
+            _timer.Start();
+
+            _isGameWon = false;
+            _isGameOver = false;
+            _timeElapsedInSeconds = 0;
+            _frameCounter = 0;
+            IsGameOver = false;  // 通过命令将 IsGameOver 设置为 false，隐藏 Next 按钮
+            OnPropertyChanged(nameof(IsGameOver));  // 通知 UI 更新
+        }
         
 
         
         public ICommand FlapCommand { get; }
         public ICommand RestartCommand { get; }
-
+        
         public GameThreeViewModel(IFlyService flyService)
         {
             _flyService = flyService;
-            _ball = new Flyer(100, 100, 25);  // 初始化小球
-           // _obstacle = new Obstacle(600, 100, 100, 200);
             
-           _obstacle1 = new Obstacle(1200, 0, 100, 300);
-           _obstacle2 = new Obstacle(1200, 600, 100, 200);
-           _obstacle3 = new Obstacle(1200, 700, 100, 100);
-           _obstacle4 = new Obstacle(1200, 0, 1000, 50);
-            _timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(16) // 60FPS
-            };
-            _timer.Tick += (sender, e) => Update();
-            _timer.Start();
+                _ball = new Flyer(100, 100, 100, 100); // 初始化小球
+                _obstacle1 = new Obstacle(1200, 500, 100, 300);
+                _obstacle2 = new Obstacle(1200, 600, 100, 200);
+                _obstacle3 = new Obstacle(1200, 650, 150, 150);
+                _obstacle4 = new Obstacle(1200, 0, 1000, 42);
+
+                _timer = new DispatcherTimer
+                {
+                    Interval = TimeSpan.FromMilliseconds(16) // 60FPS
+                };
+                _timer.Tick += (sender, e) => TimerTick();
+                _timer.Start();
+
+                _isGameWon = false;
+                _isGameOver = false;
+                _timeElapsedInSeconds = 0;
+                _frameCounter = 0;
             
-            
-            // 使用 RelayCommand 实现 FlapCommand
+
+        // 使用 RelayCommand 实现 FlapCommand
             FlapCommand = new RelayCommand(Flap);
-            
-            RestartCommand = new RelayCommand(ResetGame); // 创建“重新开始”命令
+            RestartCommand = new RelayCommand(ResetGame);
         }
 
         public void Update()
         {
-            if (_isGameOver)
+            if (_isGameWon || _isGameOver)
             {
                 return; // 游戏结束，停止更新
             }
-
+            
+            
             _ball.UpdatePosition();
             OnPropertyChanged(nameof(BallX));  // 更新小球X位置
             OnPropertyChanged(nameof(BallY));  // 更新小球Y位置
             
             
             
-            _obstacle1.UpdatePosition1(5);  // 每次更新障碍物向左移动5像素
+            
+            _obstacle1.UpdatePosition3(3);  // 每次更新障碍物向左移动5像素
             OnPropertyChanged(nameof(ObstacleX1)); // 更新障碍物的X位置
             OnPropertyChanged(nameof(ObstacleY1)); // 更新障碍物的Y位置
             
-            _obstacle2.UpdatePosition1(8);  // 每次更新障碍物向左移动5像素
+            _obstacle2.UpdatePosition1(6);  // 每次更新障碍物向左移动5像素
             OnPropertyChanged(nameof(ObstacleX2)); // 更新障碍物的X位置
             OnPropertyChanged(nameof(ObstacleY2)); // 更新障碍物的Y位置
             
-            _obstacle3.UpdatePosition1(10);  // 每次更新障碍物向左移动5像素
+            _obstacle3.UpdatePosition1(8);  // 每次更新障碍物向左移动5像素
             OnPropertyChanged(nameof(ObstacleX3)); // 更新障碍物的X位置
             OnPropertyChanged(nameof(ObstacleY3)); // 更新障碍物的Y位置
             
@@ -122,78 +175,124 @@ public class GameThreeViewModel :ViewModelBase
            //碰撞检测
            if (CheckCollision())
            {
-                GameOver(); // 如果碰撞发生，游戏结束
+                 GameOver();
+                 return;
             }
             
 
 
             // 限制小球在屏幕内跳跃，防止超出边界
-            if (_ball.Y > WindowHeight - _ball.Radius) // 检查是否触地
-            {
-                _ball.Y = WindowHeight - _ball.Radius; // 限制在地面之上
-                _ball.Velocity = 0; // 停止下落
-            }
+           if (_ball.Y + _ball.Height > WindowHeight) // 检查是否触地
+           {
+               _ball.Y = WindowHeight - _ball.Height; // 限制在地面之上
+               _ball.Velocity = 0; // 停止下落
+           }
 
-            if (_ball.Y < 0) // 检查是否跳出顶部
-            {
-                _ball.Y = 0; // 限制在顶部
-                _ball.Velocity = 0; // 停止上升
-            }
+           if (_ball.Y < 0) // 检查是否跳出顶部
+           {
+               _ball.Y = 0; // 限制在顶部
+               _ball.Velocity = 0; // 停止上升
+           }
         }
-
         // 碰撞检测逻辑
         public bool CheckCollision()
         {
             // 遍历所有障碍物，检查与每个障碍物的碰撞
-            var obstacles = new[] { _obstacle1, _obstacle2, _obstacle3 ,_obstacle4}; // 所有障碍物的集合
+            var obstacles = new[] { _obstacle1, _obstacle2, _obstacle3, _obstacle4 };
+
             foreach (var obstacle in obstacles)
             {
-                // 计算小球中心到障碍物矩形的最近距离
-                double nearestX = Math.Max(obstacle.X, Math.Min(_ball.X, obstacle.X + obstacle.Width));
-                double nearestY = Math.Max(obstacle.Y, Math.Min(_ball.Y, obstacle.Y + obstacle.Height));
+                // 检查障碍物是否已经超出屏幕范围，避免不必要的计算
+                if (obstacle.X + obstacle.Width < 0) // 如果障碍物已经完全移出屏幕
+                {
+                    continue; // 跳过该障碍物
+                }
 
-                // 计算小球中心与矩形最近点的距离
-                double deltaX = _ball.X - nearestX;
-                double deltaY = _ball.Y - nearestY;
+                // 检查小球是否与障碍物的水平边界重叠
+                bool isBallInHorizontalRange = _ball.X + _ball.Width > obstacle.X && _ball.X < obstacle.X + obstacle.Width;
 
-                // 如果距离小球的半径小于障碍物的矩形，发生碰撞
-                if ((deltaX * deltaX + deltaY * deltaY) < (_ball.Radius * _ball.Radius))
+                // 检查小球是否与障碍物的垂直边界重叠
+                bool isBallInVerticalRange = _ball.Y + _ball.Height > obstacle.Y && _ball.Y < obstacle.Y + obstacle.Height;
+
+                // 如果小球在水平和垂直范围内，则发生碰撞
+                if (isBallInHorizontalRange && isBallInVerticalRange)
                 {
                     return true; // 发生碰撞，返回 true
                 }
             }
+
             return false; // 如果没有与任何障碍物发生碰撞，则返回 false
         }
         
-        // 碰撞检测逻辑，检查小球与障碍物的碰撞
-      
-
-        // 游戏结束的处理逻辑
+        
+        // 游戏结束处理
         private void GameOver()
         {
-            IsGameOver = true; // 设置游戏结束标志
+            IsGameOver = true; // 设置游戏结束
+            _timer.Stop(); // 停止游戏更新
             _ball.Velocity = 0; // 停止小球运动
-
-            // 可以在这里添加其他Game Over处理，例如弹出对话框、重置按钮等
         }
+        
+        private void GameWon()
+        {
+            IsGameOver = true;
+            IsGameWon = true; // 设置游戏胜利
+            _ball.Velocity = 0; // 停止小球运动
+            
+        }
+
 
         // 小球跳跃的逻辑
         public void Flap()
-        {   
+        {
             Console.WriteLine("Space");
-            if (_isGameOver) return; // 游戏结束时，禁用跳跃
+            if (_isGameWon || _isGameOver) return; // 游戏结束时，禁用跳跃
             _ball.Flap();
             OnPropertyChanged(nameof(BallY));  // 触发跳跃时更新Y位置
         }
-        
-        public void ResetGame()
+
+        private void TimerTick()
         {
-            _ball = new Flyer(100, 100, 25);  // 重置小球的位置和半径
-            _obstacle1 = new Obstacle(800, 300, 100, 300);  // 重置障碍物的位置和尺寸
-            _obstacle2 = new Obstacle(900, 400, 100, 200);
-            _obstacle3 = new Obstacle(1000, 0, 100, 100);
+            if (_isGameWon || _isGameOver)
+            {
+                return; // 如果游戏结束，停止计时
+            }
+
+            // 增加帧计数器
+            _frameCounter++;
+
+            // 更新游戏时间
+            _timeElapsedInSeconds += SecondsPerFrame;
+
+// 如果游戏时间已达到 30秒并且没有发生碰撞，则触发胜利
+            if (_timeElapsedInSeconds >= GameDurationInSeconds)
+            {
+                if (!CheckCollision()) // 如果没有碰撞发生
+                {
+                    GameWon(); // 游戏胜利
+                    
+                }
+            }
+
+            // 你可以在这里处理每帧需要执行的其他游戏逻辑
+            Update();
+        }
         
-            IsGameOver = false;  // 设置游戏未结束
-            _timer.Start();  // 启动定时器
+        
+        [RelayCommand]
+        public void GoToResultThreeView()
+        {
+            Console.WriteLine("here is GoToResultThreeView");
+            WeakReferenceMessenger.Default.Send<object, string>(2, "OnForwardNavigation");
+            
+            if (_isGameWon)
+            {
+                WeakReferenceMessenger.Default.Send<object, string>(true, "OnResultSubmitted");
+            }
+            else
+            {
+                WeakReferenceMessenger.Default.Send<object, string>(false, "OnResultSubmitted");
+            }
+            
         }
 }

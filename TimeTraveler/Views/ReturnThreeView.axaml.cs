@@ -5,9 +5,9 @@ using Avalonia.Media;
 
 namespace TimeTraveler.Views;
 
-public partial class BackgroundThreeView : UserControl
+public partial class ReturnThreeView : UserControl
 {
-    public BackgroundThreeView()
+    public ReturnThreeView()
     {
         InitializeComponent();
     }
