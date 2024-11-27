@@ -16,9 +16,7 @@ public class MazeCharacterToImageConverter : IValueConverter
 
         string mazeChar = value.ToString();
         string imagePath = string.Empty;
-
-        // 输出调试信息
-        Console.Out.WriteLine("Character: " + mazeChar);
+        
 
         switch (mazeChar)
         {
@@ -39,7 +37,7 @@ public class MazeCharacterToImageConverter : IValueConverter
                 break;
         }
 
-        Console.Out.WriteLine("Image Path: " + imagePath);
+      
         return imagePath; // 返回图像路径
     }
 

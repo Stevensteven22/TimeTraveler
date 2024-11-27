@@ -7,74 +7,75 @@
     x:Class="TimeTraveler.Views.GameTwoView"
     xmlns="https://github.com/avaloniaui"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:cv="using:TimeTraveler.Converters"
     xmlns:i="using:Avalonia.Xaml.Interactivity"
     xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:u="https://irihi.tech/ursa"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters="clr-namespace:TimeTraveler.Converters"
-    xmlns:global="clr-namespace:">
-    
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
     <UserControl.Resources>
-        <global:MazeCharacterToImageConverter x:Key="MazeCharacterToImageConverter" />
+        <!-- 可以添加其他资源 -->
         <Color x:Key="TitleColor">#d3bc8e</Color>
         <Color x:Key="ContentColor">#b1aca4</Color>
         <Color x:Key="ControlColor">#3f4555</Color>
     </UserControl.Resources>
-    
+
     <Border>
         <Border.Background>
             <ImageBrush
                 Opacity="1"
-                Source="\Assets\迷宫界面背景.jpg"
+                Source="/Assets/迷宫界面背景.png"
                 Stretch="UniformToFill" />
         </Border.Background>
-        
-    <Grid>
-        
-        
-        <TextBlock Grid.Row="0" 
-                   Text="{Binding GameStatus}" 
-                   FontSize="30"
-                   HorizontalAlignment="Center" 
-                   VerticalAlignment="Top" 
-                   Margin="10" 
-                   FontWeight="Bold"
-                   Foreground="DarkBlue"/>
 
-        
-        
-        <TextBlock Grid.Row="1" 
-                   Text="{Binding Maze}" 
-                   FontSize="55" FontWeight="Bold"
-                   HorizontalAlignment="Center" 
-                   VerticalAlignment="Center" 
-                   FontFamily="Courier New" 
-        />
-        
-        <ItemsControl Grid.Row="2" ItemsSource="{Binding Maze}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Image Source="{Binding ., Converter={StaticResource MazeCharacterToImageConverter}}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <Grid>
+            <!-- 显示游戏状态 -->
+            <TextBlock Grid.Row="0" 
+                       Text="{Binding GameStatus}" 
+                       FontSize="30"
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Top" 
+                       Margin="10" 
+                       FontWeight="Bold"
+                       Foreground="DarkBlue"/>
+
+            <!-- 迷宫图形显示 -->
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding MazeGrid}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ItemsControl ItemsSource="{Binding}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <!-- 根据每个 MazeCell 显示图像 -->
+                                    <Image Source="{Binding Image}" Width="60" Height="60"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
 
 
-        <StackPanel Grid.Row="3" 
-                    Orientation="Horizontal" 
-                    HorizontalAlignment="Center" 
-                    VerticalAlignment="Bottom" 
-                    Margin="10">
-            <Button  Background="#E9E5D9" Content="↑" Command="{Binding MoveUpCommand}" Margin="5"  Width="80" Height="80" FontSize="20"/>
-            <Button  Background="#E9E5D9" Content="←" Command="{Binding MoveLeftCommand}" Margin="5"  Width="80" Height="80" FontSize="20"/>
-            <Button  Background="#E9E5D9" Content="↓" Command="{Binding MoveDownCommand}" Margin="5"  Width="80" Height="80" FontSize="20"/>
-            <Button  Background="#E9E5D9" Content="→" Command="{Binding MoveRightCommand}" Margin="10"  Width="80" Height="80" FontSize="20"/>
-            <Button  Background="#E9E5D9" Content="放弃" Command="{Binding QuitCommand}" Margin="5"  Width="80" Height="80" FontSize="20"/>
-        </StackPanel>
-    </Grid>
-    
+
+
+            <!-- 控制按钮 -->
+            <StackPanel Grid.Row="2" 
+                        Orientation="Horizontal" 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Bottom" 
+                        Margin="10">
+                <Button  Background="#E9E5D9" Content="↑" Command="{Binding MoveLeftCommand}" Margin="5"  Width="80" Height="80" FontSize="20"/>
+                <Button  Background="#E9E5D9" Content="←" Command="{Binding MoveUpCommand}" Margin="5"  Width="80" Height="80" FontSize="20"/>
+                <Button  Background="#E9E5D9" Content="↓" Command="{Binding MoveRightCommand}" Margin="5"  Width="80" Height="80" FontSize="20"/>
+                <Button  Background="#E9E5D9" Content="→" Command="{Binding MoveDownCommand}" Margin="10"  Width="80" Height="80" FontSize="20"/>
+                <Button  Background="#E9E5D9" Content="放弃" Command="{Binding QuitCommand}" Margin="5"  Width="80" Height="80" FontSize="20"/>
+            </StackPanel>
+        </Grid>
     </Border>
 </UserControl>
