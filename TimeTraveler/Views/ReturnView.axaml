@@ -1,4 +1,5 @@
-﻿<UserControl
+﻿
+<UserControl
     d:DataContext="{Binding ReturnViewModel, Source={StaticResource ServiceLocator}}"
     d:DesignHeight="450"
     d:DesignWidth="800"
