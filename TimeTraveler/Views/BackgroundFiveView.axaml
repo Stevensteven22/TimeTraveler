@@ -1,0 +1,143 @@
+﻿<UserControl
+    FontFamily="{StaticResource MyFont}"
+    d:DataContext="{Binding BackgroundFiveViewModel, Source={StaticResource ServiceLocator}}"
+    d:DesignHeight="800"
+    d:DesignWidth="1200"
+    mc:Ignorable="d"
+    x:Class="TimeTraveler.Views.BackgroundFiveView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:uc="using:TimeTraveler.UserControls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border>
+        <Border.Background>
+            <ImageBrush
+                Opacity="0.5"
+                Source="\Assets\5_背景.jpg"
+                Stretch="UniformToFill" />
+        </Border.Background>
+        <Border>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Border BorderThickness="1">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Border VerticalAlignment="Top">
+                            <Border.Background>
+                                <ImageBrush
+                                    Opacity="0.3"
+                                    Source="\Assets\5_背景.jpg"
+                                    Stretch="UniformToFill" />
+                            </Border.Background>
+
+                            <StackPanel>
+                                <Label
+                                    Content="xxx"
+                                    FontSize="50"
+                                    Foreground="#ac0a"
+                                    HorizontalAlignment="Center" />
+                                <Label
+                                    Content="第五章"
+                                    FontSize="30"
+                                    Foreground="#3f4555"
+                                    HorizontalAlignment="Center"
+                                    Margin="10,0,0,0" />
+
+                            </StackPanel>
+
+                        </Border>
+                        <Border
+                            Background="Transparent"
+                            BorderThickness="1"
+                            Grid.Row="1"
+                            HorizontalAlignment="Center"
+                            Margin="30"
+                            VerticalAlignment="Center">
+                            <StackPanel>
+                                <TextBlock
+                                    FontSize="26"
+                                    Foreground="#3f4555"
+                                    HorizontalAlignment="Left"
+                                    Margin="20,10,0,0"
+                                    Text="  xxx"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    FontSize="26"
+                                    Foreground="#3f4555"
+                                    HorizontalAlignment="Left"
+                                    Margin="20,10,0,0"
+                                    Text="  xxx"
+                                    TextWrapping="Wrap" />
+
+                            </StackPanel>
+
+                        </Border>
+                    </Grid>
+                </Border>
+
+
+                <Button
+                    Background="#E9E5D9"
+                    Command="{Binding GoToGameViewCommand}"
+                    Content="解谜"
+                    Grid.Row="1"
+                    Margin="0,0,0,30"
+                    PointerEntered="Button_PointerEntered_1"
+                    PointerExited="Button_PointerExited_2"
+                    VerticalAlignment="Bottom">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border
+                                Background="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"
+                                CornerRadius="80"
+                                Padding="20"
+                                Width="200"
+                                x:Name="PART_ButtonBorder">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="6*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border
+                                        Background="#3f4555"
+                                        CornerRadius="18"
+                                        Height="36"
+                                        Width="36">
+                                        <Ellipse
+                                            Fill="#3f4555"
+                                            Height="24"
+                                            Stroke="#CABD93"
+                                            StrokeThickness="3"
+                                            Width="24" />
+
+                                    </Border>
+                                    <TextBlock
+                                        FontSize="26"
+                                        Foreground="#3f4555"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Center"
+                                        Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"
+                                        VerticalAlignment="Center" />
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <!--  添加样式和触发器  -->
+
+                    <!--  使用 VisualStateManager 来处理鼠标悬停效果  -->
+
+                </Button>
+
+            </Grid>
+        </Border>
+    </Border>
+</UserControl>

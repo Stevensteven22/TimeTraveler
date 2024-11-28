@@ -1,0 +1,339 @@
+﻿<UserControl
+    FontFamily="{StaticResource MyFont}"
+    d:DataContext="{Binding GameFiveViewModel, Source={StaticResource ServiceLocator}}"
+    d:DesignHeight="800"
+    d:DesignWidth="1200"
+    mc:Ignorable="d"
+    x:Class="TimeTraveler.Views.GameFiveView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Avalonia.Xaml.Interactivity"
+    xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:u="https://irihi.tech/ursa"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <Color x:Key="TitleColor">#d3bc8e</Color>
+        <Color x:Key="ContentColor">#b1aca4</Color>
+        <Color x:Key="ControlColor">#3f4555</Color>
+    </UserControl.Resources>
+
+    <Border>
+        <Border.Background>
+            <ImageBrush
+                Opacity="1"
+                Source="\Assets\5_游戏背景.jpg"
+                Stretch="UniformToFill" />
+        </Border.Background>
+        
+        <Grid>
+            <Border Background="Black" Opacity="0.5" />
+            <Border Margin="20" VerticalAlignment="Stretch">
+                <StackPanel Spacing="20">
+                    <TextBlock
+                        FontSize="22"
+                        FontWeight="Bold"
+                        Foreground="{DynamicResource TitleColor}"
+                        Margin="200,10,0,0"
+                        Text="找出凶手：" />
+
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        Orientation="Vertical"
+                        Spacing="5"
+                        VerticalAlignment="Center">
+                        <TextBlock
+                            FontSize="18"
+                            Foreground="{DynamicResource ContentColor}"
+                            Text="请根据下面事实，找出凶手:"
+                            TextAlignment="Left" />
+                        <TextBlock
+                            FontSize="18"
+                            Foreground="{DynamicResource ContentColor}"
+                            Text="1.雷电将军或者辛焱谋害了钟离。"
+                            TextAlignment="Left" />
+                        <TextBlock
+                            FontSize="18"
+                            Foreground="{DynamicResource ContentColor}"
+                            Text="2.如果雷电将军谋害了钟离，则谋害不会发生在午夜前。"
+                            TextAlignment="Left" />
+                        <TextBlock
+                            FontSize="18"
+                            Foreground="{DynamicResource ContentColor}"
+                            Text="3.如果辛焱的证词是正确的，则谋害发生在午夜前。"
+                            TextAlignment="Left" />
+                        <TextBlock
+                            FontSize="18"
+                            Foreground="{DynamicResource ContentColor}"
+                            Text="4.如果辛焱的证词不正确，则午夜时屋里灯光未灭。"
+                            TextAlignment="Left" />
+                        <TextBlock
+                            FontSize="18"
+                            Foreground="{DynamicResource ContentColor}"
+                            Text="5.如果雷电将军富裕，则他不会谋害钟离。"
+                            TextAlignment="Left" />
+                        <TextBlock
+                            FontSize="18"
+                            Foreground="{DynamicResource ContentColor}"
+                            Text="6.钟离有钱且雷电将军不富裕。"
+                            TextAlignment="Left" />
+                        <TextBlock
+                            FontSize="18"
+                            Foreground="{DynamicResource ContentColor}"
+                            Text="7.午夜时屋里灯灭了。"
+                            TextAlignment="Left" />
+                        <TextBlock
+                            FontSize="18"
+                            Foreground="{DynamicResource ContentColor}"
+                            Text="谁是凶手？"
+                            TextAlignment="Left" />
+                        <ComboBox
+                            Classes="Bordered"
+                            Height="40"
+                            HorizontalAlignment="Stretch"
+                            ItemsSource="{Binding Options}"
+                            Margin="10"
+                            PlaceholderForeground="Black"
+                            PlaceholderText="请选择答案"
+                            SelectedItem="{Binding SelectedOption, Mode=TwoWay}"
+                            ToolTip.Placement="Bottom"
+                            x:Name="cb_Problem3Answer">
+                            <i:Interaction.Behaviors>
+                                <ia:EventTriggerBehavior EventName="SelectionChanged">
+                                    <ia:InvokeCommandAction Command="{Binding SelectionChangedCommand}" CommandParameter="{Binding SelectedItem, ElementName=cb_Problem3Answer}" />
+                                </ia:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel
+                                        Margin="5"
+                                        Orientation="Horizontal"
+                                        Spacing="10">
+                                        <u:Avatar
+                                            Background="Transparent"
+                                            Classes="Circle"
+                                            Height="30"
+                                            Source="{Binding Icon}"
+                                            Width="30" />
+                                        <TextBlock Text="{Binding Text}" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                            <ComboBox.Styles>
+                                <Style Selector="DataValidationErrors">
+                                    <Setter Property="Template">
+                                        <ControlTemplate>
+                                            <DockPanel LastChildFill="True">
+                                                <ContentControl
+                                                    Content="{Binding (DataValidationErrors.Errors)}"
+                                                    ContentTemplate="{TemplateBinding ErrorTemplate}"
+                                                    DataContext="{TemplateBinding Owner}"
+                                                    DockPanel.Dock="Right"
+                                                    IsVisible="{Binding (DataValidationErrors.HasErrors)}" />
+                                                <ContentPresenter
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    Content="{TemplateBinding Content}"
+                                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                    CornerRadius="{TemplateBinding CornerRadius}"
+                                                    Name="PART_ContentPresenter"
+                                                    Padding="{TemplateBinding Padding}" />
+                                            </DockPanel>
+                                        </ControlTemplate>
+                                    </Setter>
+                                    <Setter Property="ErrorTemplate">
+                                        <DataTemplate>
+                                            <Grid />
+                                        </DataTemplate>
+                                    </Setter>
+                                </Style>
+                            </ComboBox.Styles>
+                        </ComboBox>
+                    </StackPanel>
+                    
+                    <StackPanel>
+                        <TextBlock
+                            FontSize="22"
+                            FontWeight="Bold"
+                            Foreground="{DynamicResource TitleColor}"
+                            Margin="200,10,0,0"
+                            Text="找到凶器"
+                            TextTrimming="CharacterEllipsis" />
+                        <TextBlock
+                            FontSize="16"
+                            Foreground="{DynamicResource ContentColor}"
+                            Text="通过审问凶手，我们找到了她藏匿凶器的保险柜，请解开保险柜密码，找到凶器，拿到物证"
+                            TextAlignment="Center" />
+                    </StackPanel>
+                    
+                    <u:Avatar
+                            Classes="Square"
+                            HorizontalAlignment="Center"
+                            Margin="0,0,0,0"
+                            Source="/Assets/5_谜题.jpg"
+                            Width="100">
+                            <u:Avatar.Transitions>
+                                <Transitions>
+                                    <TransformOperationsTransition Duration="0:0:0.5" Property="RenderTransform" />
+                                </Transitions>
+                            </u:Avatar.Transitions>
+                        </u:Avatar>
+
+
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        Orientation="Vertical"
+                        Spacing="10"
+                        VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel.Styles>
+                                <Style Selector="StackPanel&gt;RadioButton:checked">
+                                    <Setter Property="Background" Value="Transparent" />
+                                </Style>
+                            </StackPanel.Styles>
+                            <RadioButton
+                                Theme="{DynamicResource CardRadioButton}"
+                                VerticalContentAlignment="Center"
+                                x:Name="rb_Problem1Answer1">
+                                <i:Interaction.Behaviors>
+                                    <ia:EventTriggerBehavior EventName="Checked">
+                                        <ia:InvokeCommandAction Command="{Binding SelectAnswerCommand}" CommandParameter="A" />
+                                    </ia:EventTriggerBehavior>
+                                </i:Interaction.Behaviors>
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <u:Avatar
+                                        Background="Transparent"
+                                        Classes="Square"
+                                        CornerRadius="10"
+                                        Height="50"
+                                        IsHitTestVisible="False"
+                                        Source="../Assets/5_A.jpg"
+                                        Width="50" />
+                                    <TextBlock Text="A" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Theme="{DynamicResource CardRadioButton}"
+                                VerticalContentAlignment="Center"
+                                x:Name="rb_Problem1Answer2">
+                                <i:Interaction.Behaviors>
+                                    <ia:EventTriggerBehavior EventName="Checked">
+                                        <ia:InvokeCommandAction Command="{Binding SelectAnswerCommand}" CommandParameter="B" />
+                                    </ia:EventTriggerBehavior>
+                                </i:Interaction.Behaviors>
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <u:Avatar
+                                        Background="Transparent"
+                                        Classes="Square"
+                                        CornerRadius="10"
+                                        Height="50"
+                                        IsHitTestVisible="False"
+                                        Source="../Assets/5_B.jpg"
+                                        Width="50" />
+                                    <TextBlock Text="B" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Theme="{DynamicResource CardRadioButton}"
+                                VerticalContentAlignment="Center"
+                                x:Name="rb_Problem1Answer3">
+                                <i:Interaction.Behaviors>
+                                    <ia:EventTriggerBehavior EventName="Checked">
+                                        <ia:InvokeCommandAction Command="{Binding SelectAnswerCommand}" CommandParameter="C" />
+                                    </ia:EventTriggerBehavior>
+                                </i:Interaction.Behaviors>
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <u:Avatar
+                                        Background="Transparent"
+                                        Classes="Square"
+                                        CornerRadius="10"
+                                        Height="50"
+                                        IsHitTestVisible="False"
+                                        Source="../Assets/5_C.jpg"
+                                        Width="50" />
+                                    <TextBlock Text="C" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Theme="{DynamicResource CardRadioButton}"
+                                VerticalContentAlignment="Center"
+                                x:Name="rb_Problem1Answer4">
+                                <i:Interaction.Behaviors>
+                                    <ia:EventTriggerBehavior EventName="Checked">
+                                        <ia:InvokeCommandAction Command="{Binding SelectAnswerCommand}" CommandParameter="D" />
+                                    </ia:EventTriggerBehavior>
+                                </i:Interaction.Behaviors>
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <u:Avatar
+                                        Background="Transparent"
+                                        Classes="Square"
+                                        CornerRadius="10"
+                                        Height="50"
+                                        IsHitTestVisible="False"
+                                        Source="../Assets/5_D.jpg"
+                                        Width="50" />
+                                    <TextBlock Text="D" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                        </StackPanel>
+                    </StackPanel>
+
+
+
+                    <Button
+                        Background="#E9E5D9"
+                        Command="{Binding GoToResultViewCommand}"
+                        Content="提交答案"
+                        Margin="0,0,0,0"
+                        PointerEntered="Button_PointerEntered_1"
+                        PointerExited="Button_PointerExited_2"
+                        VerticalAlignment="Center">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border
+                                    Background="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"
+                                    CornerRadius="80"
+                                    Padding="20"
+                                    Width="200"
+                                    x:Name="PART_ButtonBorder">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="6*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Border
+                                            Background="#3f4555"
+                                            CornerRadius="18"
+                                            Height="36"
+                                            Width="36">
+                                            <Ellipse
+                                                Fill="#3f4555"
+                                                Height="24"
+                                                Stroke="#CABD93"
+                                                StrokeThickness="3"
+                                                Width="24" />
+
+                                        </Border>
+                                        <TextBlock
+                                            FontSize="26"
+                                            Foreground="#3f4555"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Center"
+                                            Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"
+                                            VerticalAlignment="Center" />
+                                    </Grid>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+
+
+                    </Button>
+
+
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>
+

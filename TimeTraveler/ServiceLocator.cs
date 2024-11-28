@@ -51,21 +51,19 @@ public class ServiceLocator {
     public InitializationViewModel InitializationViewModel =>
         _serviceProvider.GetService<InitializationViewModel>();
     
-    
+    public GameFiveViewModel GameFiveViewModel =>
+        _serviceProvider.GetService<GameFiveViewModel>();
+
+    public BackgroundFiveViewModel BackgroundFiveViewModel =>
+        _serviceProvider.GetService<BackgroundFiveViewModel>();
+
+    public ResultFiveViewModel ResultFiveViewModel =>
+        _serviceProvider.GetService<ResultFiveViewModel>();
     public ServiceLocator() {
         var serviceCollection = new ServiceCollection();
-
-        //ViewModel
         serviceCollection.AddSingleton<MainWindowViewModel>();
         serviceCollection.AddSingleton<MainViewModel>();
         serviceCollection.AddSingleton<InitializationViewModel>();
-        serviceCollection.AddSingleton<GameViewModel>();
-        serviceCollection.AddSingleton<BackgroundViewModel>();
-        serviceCollection.AddSingleton<ReturnViewModel>();
-        serviceCollection.AddSingleton<ResultViewModel>();
-
-
-        //Services
         serviceCollection
             .AddSingleton<IRootNavigationService, RootNavigationService>();
         serviceCollection
@@ -75,7 +73,15 @@ public class ServiceLocator {
             .AddSingleton<IPreferenceStorage, FilePreferenceStorage>();
         serviceCollection
             .AddSingleton<IResultVerifyService, ResultVerifyService>();
-        
+        serviceCollection
+            .AddSingleton<IResultVerifyFiveService, ResultVerifyFiveService>();
+        serviceCollection.AddSingleton<GameViewModel>();
+        serviceCollection.AddSingleton<BackgroundViewModel>();
+        serviceCollection.AddSingleton<ReturnViewModel>();
+        serviceCollection.AddSingleton<ResultViewModel>();
+        serviceCollection.AddSingleton<GameFiveViewModel>();
+        serviceCollection.AddSingleton<BackgroundFiveViewModel>();
+        serviceCollection.AddSingleton<ResultFiveViewModel>();
         //Others
        
         
