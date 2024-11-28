@@ -8,8 +8,8 @@ public class Flyer
     public double Height { get; set; }  // 矩形的高度
     public double Velocity { get; set; } // 小球的速度
 
-    private readonly double _gravity = 0.5;  // 重力
-    private readonly double _flapStrength = -10; // 跳跃力度
+    private readonly double _gravity = 0.3;  // 重力
+    private readonly double _flapStrength = -8; // 跳跃力度
 
 
     

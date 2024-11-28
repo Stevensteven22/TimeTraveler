@@ -18,8 +18,7 @@ public partial class GameThreeViewModel :ViewModelBase
         private Obstacle _obstacle4;
         private readonly IFlyService _flyService;
         private DispatcherTimer _timer;
-        private int _frameCounter = 0; // 计数器，用于跟踪帧数
-        private const double FrameDuration = 20; // 每帧16ms，即60FPS
+        private const double FrameDuration = 16; // 每帧16ms，即60FPS
         private const double SecondsPerFrame = FrameDuration / 1000.0; // 每帧的秒数
         private double _timeElapsedInSeconds = 0.0; // 游戏已进行的时间（秒）
         private const double GameDurationInSeconds = 10.0; // 游戏持续时长（秒）
@@ -95,7 +94,7 @@ public partial class GameThreeViewModel :ViewModelBase
 
             _timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(20) // 60FPS
+                Interval = TimeSpan.FromMilliseconds(16) // 60FPS
             };
             _timer.Tick += (sender, e) => TimerTick();
             _timer.Start();
@@ -103,7 +102,6 @@ public partial class GameThreeViewModel :ViewModelBase
             _isGameWon = false;
             _isGameOver = false;
             _timeElapsedInSeconds = 0;
-            _frameCounter = 0;
             IsGameOver = false;  // 通过命令将 IsGameOver 设置为 false，隐藏 Next 按钮
             OnPropertyChanged(nameof(IsGameOver));  // 通知 UI 更新
         }
@@ -133,7 +131,6 @@ public partial class GameThreeViewModel :ViewModelBase
                 _isGameWon = false;
                 _isGameOver = false;
                 _timeElapsedInSeconds = 0;
-                _frameCounter = 0;
             
 
         // 使用 RelayCommand 实现 FlapCommand
@@ -245,7 +242,6 @@ public partial class GameThreeViewModel :ViewModelBase
         // 小球跳跃的逻辑
         public void Flap()
         {
-            Console.WriteLine("Space");
             if (_isGameWon || _isGameOver) return; // 游戏结束时，禁用跳跃
             _ball.Flap();
             OnPropertyChanged(nameof(BallY));  // 触发跳跃时更新Y位置
@@ -257,10 +253,7 @@ public partial class GameThreeViewModel :ViewModelBase
             {
                 return; // 如果游戏结束，停止计时
             }
-
-            // 增加帧计数器
-            _frameCounter++;
-
+            
             // 更新游戏时间
             _timeElapsedInSeconds += SecondsPerFrame;
 
@@ -282,7 +275,6 @@ public partial class GameThreeViewModel :ViewModelBase
         [RelayCommand]
         public void GoToResultThreeView()
         {
-            Console.WriteLine("here is GoToResultThreeView");
             WeakReferenceMessenger.Default.Send<object, string>(2, "OnForwardNavigation");
             
             if (_isGameWon)
