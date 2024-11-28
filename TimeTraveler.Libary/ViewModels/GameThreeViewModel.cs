@@ -11,8 +11,8 @@ public partial class GameThreeViewModel :ViewModelBase
 {
         private bool _isGameWon = false; // 游戏是否胜利
         private bool _isGameOver = false; // 游戏是否结束（碰撞或胜利）
-        private  Flyer _ball;
-        private Obstacle _obstacle1;
+        private  Flyer _ball {get; set;}
+        private Obstacle _obstacle1 { get; set; }
         private Obstacle _obstacle2;
         private Obstacle _obstacle3;
         private Obstacle _obstacle4;
@@ -21,7 +21,7 @@ public partial class GameThreeViewModel :ViewModelBase
         private const double FrameDuration = 16; // 每帧16ms，即60FPS
         private const double SecondsPerFrame = FrameDuration / 1000.0; // 每帧的秒数
         private double _timeElapsedInSeconds = 0.0; // 游戏已进行的时间（秒）
-        private const double GameDurationInSeconds = 10.0; // 游戏持续时长（秒）
+        private const double GameDurationInSeconds = 30.0; // 游戏持续时长（秒）
 
         
         
@@ -84,7 +84,7 @@ public partial class GameThreeViewModel :ViewModelBase
         public double BallHeight => _ball.Height;
         
         // 重置游戏状态
-        private void ResetGame()
+        public void ResetGame()
         {
             _ball = new Flyer(100, 100, 100, 100); // 初始化小球
             _obstacle1 = new Obstacle(1200, 500, 100, 300);
@@ -157,15 +157,15 @@ public partial class GameThreeViewModel :ViewModelBase
             OnPropertyChanged(nameof(ObstacleX1)); // 更新障碍物的X位置
             OnPropertyChanged(nameof(ObstacleY1)); // 更新障碍物的Y位置
             
-            _obstacle2.UpdatePosition1(6);  // 每次更新障碍物向左移动5像素
+            _obstacle2.UpdatePosition1(5);  // 每次更新障碍物向左移动5像素
             OnPropertyChanged(nameof(ObstacleX2)); // 更新障碍物的X位置
             OnPropertyChanged(nameof(ObstacleY2)); // 更新障碍物的Y位置
             
-            _obstacle3.UpdatePosition1(8);  // 每次更新障碍物向左移动5像素
+            _obstacle3.UpdatePosition1(6);  // 每次更新障碍物向左移动5像素
             OnPropertyChanged(nameof(ObstacleX3)); // 更新障碍物的X位置
             OnPropertyChanged(nameof(ObstacleY3)); // 更新障碍物的Y位置
             
-            _obstacle4.UpdatePosition2(15);  // 每次更新障碍物向左移动5像素
+            _obstacle4.UpdatePosition2(10);  // 每次更新障碍物向左移动5像素
             OnPropertyChanged(nameof(ObstacleX4)); // 更新障碍物的X位置
             OnPropertyChanged(nameof(ObstacleY4)); // 更新障碍物的Y位置
 
@@ -223,14 +223,14 @@ public partial class GameThreeViewModel :ViewModelBase
         
         
         // 游戏结束处理
-        private void GameOver()
+        public void GameOver()
         {
             IsGameOver = true; // 设置游戏结束
             _timer.Stop(); // 停止游戏更新
             _ball.Velocity = 0; // 停止小球运动
         }
         
-        private void GameWon()
+        public void GameWon()
         {
             IsGameOver = true;
             IsGameWon = true; // 设置游戏胜利
@@ -247,7 +247,7 @@ public partial class GameThreeViewModel :ViewModelBase
             OnPropertyChanged(nameof(BallY));  // 触发跳跃时更新Y位置
         }
 
-        private void TimerTick()
+        public void TimerTick()
         {
             if (_isGameWon || _isGameOver)
             {
