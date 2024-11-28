@@ -17,19 +17,17 @@
    
 
     <Canvas Focusable="True">
-        <!-- 背景图 -->
         <Canvas.Background>
             <ImageBrush Source="/Assets/飞行背景图.png" Stretch="UniformToFill" />
         </Canvas.Background>
-
-        <!-- 小球 -->
+        
         <Image Source="/Assets/Flyer.png" 
                Width="{Binding BallWidth}" 
                Height="{Binding BallHeight}" 
                Canvas.Left="{Binding BallX}" 
                Canvas.Top="{Binding BallY}" />
 
-        <!-- 障碍物 -->
+
         <Image Source="/Assets/神像2.png" 
                Width="{Binding ObstacleWidth1}" 
                Height="{Binding ObstacleHeight1}" 
@@ -51,47 +49,47 @@
                Canvas.Left="{Binding ObstacleX4}" 
                Canvas.Top="{Binding ObstacleY4}" />
 
-       <!-- Flap 按钮 -->
+
 <Button Content="Flap" 
         Command="{Binding FlapCommand}" 
         Canvas.Left="50" 
         Canvas.Top="350">
     <Button.Styles>
         <Style Selector="Button">
-            <Setter Property="Background" Value="#58d5c9" /> <!-- 设置按钮背景色 -->
-            <Setter Property="Foreground" Value="White" /> <!-- 设置按钮文字颜色 -->
-            <Setter Property="FontSize" Value="16" /> <!-- 设置字体大小 -->
-            <Setter Property="Padding" Value="10" /> <!-- 设置按钮内边距 -->
-            <Setter Property="CornerRadius" Value="10" /> <!-- 设置按钮圆角 -->
-            <Setter Property="BorderBrush" Value="White" /> <!-- 设置按钮边框颜色 -->
-            <Setter Property="BorderThickness" Value="2" /> <!-- 设置按钮边框厚度 -->
-            <Setter Property="Cursor" Value="Hand" /> <!-- 鼠标悬停时显示手指形状 -->
-            <Setter Property="Height" Value="50" /> <!-- 设置按钮高度 -->
-            <Setter Property="Width" Value="120" /> <!-- 设置按钮宽度 -->
-            <Setter Property="FontWeight" Value="Bold" /> <!-- 设置字体加粗 -->
+            <Setter Property="Background" Value="#58d5c9" /> 
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="16" /> 
+            <Setter Property="Padding" Value="10" /> 
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="BorderBrush" Value="White" /> 
+            <Setter Property="BorderThickness" Value="2" /> 
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Height" Value="50" />
+            <Setter Property="Width" Value="120" /> 
+            <Setter Property="FontWeight" Value="Bold" /> 
         </Style>
     </Button.Styles>
 </Button>
 
-<!-- Next 按钮 -->
+
 <Button Content="Next" 
         IsVisible="{Binding IsGameOver}"
         Command="{Binding GoToResultThreeViewCommand}"
         Canvas.Left="180" 
-        Canvas.Top="350"> <!-- 确保两个按钮的 Canvas.Top 值相同，以保证平行 -->
+        Canvas.Top="350"> 
     <Button.Styles>
         <Style Selector="Button">
-            <Setter Property="Background" Value="#58d5c9" /> <!-- 设置按钮背景色 -->
-            <Setter Property="Foreground" Value="White" /> <!-- 设置按钮文字颜色 -->
-            <Setter Property="FontSize" Value="16" /> <!-- 设置字体大小 -->
-            <Setter Property="Padding" Value="10" /> <!-- 设置按钮内边距 -->
-            <Setter Property="CornerRadius" Value="10" /> <!-- 设置按钮圆角 -->
-            <Setter Property="BorderBrush" Value="White" /> <!-- 设置按钮边框颜色 -->
-            <Setter Property="BorderThickness" Value="2" /> <!-- 设置按钮边框厚度 -->
-            <Setter Property="Cursor" Value="Hand" /> <!-- 鼠标悬停时显示手指形状 -->
-            <Setter Property="Height" Value="50" /> <!-- 设置按钮高度 -->
-            <Setter Property="Width" Value="120" /> <!-- 设置按钮宽度 -->
-            <Setter Property="FontWeight" Value="Bold" /> <!-- 设置字体加粗 -->
+            <Setter Property="Background" Value="#58d5c9" /> 
+            <Setter Property="Foreground" Value="White" /> 
+            <Setter Property="FontSize" Value="16" /> 
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="CornerRadius" Value="10" /> 
+            <Setter Property="BorderBrush" Value="White" /> 
+            <Setter Property="BorderThickness" Value="2" /> 
+            <Setter Property="Cursor" Value="Hand" /> 
+            <Setter Property="Height" Value="50" />
+            <Setter Property="Width" Value="120" /> 
+            <Setter Property="FontWeight" Value="Bold" />
         </Style>
     </Button.Styles>
 </Button>

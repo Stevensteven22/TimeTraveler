@@ -96,7 +96,7 @@
                 <Button
                     Background="#E9E5D9"
                     Command="{Binding GoToGameThreeViewCommand}"
-                    Content="解谜"
+                    Content="开始试炼"
                     Grid.Row="1"
                     Margin="0,0,0,30"
                     PointerEntered="Button_PointerEntered_1"

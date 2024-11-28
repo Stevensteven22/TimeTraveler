@@ -11,8 +11,8 @@ public partial class GameThreeViewModel :ViewModelBase
 {
         private bool _isGameWon = false; // 游戏是否胜利
         private bool _isGameOver = false; // 游戏是否结束（碰撞或胜利）
-        private  Flyer _ball {get; set;}
-        private Obstacle _obstacle1 { get; set; }
+        public  Flyer _ball {get; set;}
+        public Obstacle _obstacle1 { get; set; }
         private Obstacle _obstacle2;
         private Obstacle _obstacle3;
         private Obstacle _obstacle4;
@@ -20,15 +20,14 @@ public partial class GameThreeViewModel :ViewModelBase
         private DispatcherTimer _timer;
         private const double FrameDuration = 16; // 每帧16ms，即60FPS
         private const double SecondsPerFrame = FrameDuration / 1000.0; // 每帧的秒数
-        private double _timeElapsedInSeconds = 0.0; // 游戏已进行的时间（秒）
-        private const double GameDurationInSeconds = 30.0; // 游戏持续时长（秒）
+        public double _timeElapsedInSeconds = 0.0; // 游戏已进行的时间（秒）
+        private const double GameDurationInSeconds = 20.0; // 游戏持续时长（秒）
 
         
         
         // 硬编码的窗口宽高
         private const double WindowWidth = 1200;
         private const double WindowHeight = 800;
-        
         
         public bool IsGameWon
         {
@@ -144,30 +143,25 @@ public partial class GameThreeViewModel :ViewModelBase
             {
                 return; // 游戏结束，停止更新
             }
-            
-            
             _ball.UpdatePosition();
-            OnPropertyChanged(nameof(BallX));  // 更新小球X位置
-            OnPropertyChanged(nameof(BallY));  // 更新小球Y位置
+            OnPropertyChanged(nameof(BallX));  
+            OnPropertyChanged(nameof(BallY));  
             
+            _obstacle1.UpdatePosition3(3); 
+            OnPropertyChanged(nameof(ObstacleX1)); 
+            OnPropertyChanged(nameof(ObstacleY1)); 
             
+            _obstacle2.UpdatePosition1(5);  
+            OnPropertyChanged(nameof(ObstacleX2)); 
+            OnPropertyChanged(nameof(ObstacleY2)); 
             
+            _obstacle3.UpdatePosition1(6);  
+            OnPropertyChanged(nameof(ObstacleX3)); 
+            OnPropertyChanged(nameof(ObstacleY3)); 
             
-            _obstacle1.UpdatePosition3(3);  // 每次更新障碍物向左移动5像素
-            OnPropertyChanged(nameof(ObstacleX1)); // 更新障碍物的X位置
-            OnPropertyChanged(nameof(ObstacleY1)); // 更新障碍物的Y位置
-            
-            _obstacle2.UpdatePosition1(5);  // 每次更新障碍物向左移动5像素
-            OnPropertyChanged(nameof(ObstacleX2)); // 更新障碍物的X位置
-            OnPropertyChanged(nameof(ObstacleY2)); // 更新障碍物的Y位置
-            
-            _obstacle3.UpdatePosition1(6);  // 每次更新障碍物向左移动5像素
-            OnPropertyChanged(nameof(ObstacleX3)); // 更新障碍物的X位置
-            OnPropertyChanged(nameof(ObstacleY3)); // 更新障碍物的Y位置
-            
-            _obstacle4.UpdatePosition2(10);  // 每次更新障碍物向左移动5像素
-            OnPropertyChanged(nameof(ObstacleX4)); // 更新障碍物的X位置
-            OnPropertyChanged(nameof(ObstacleY4)); // 更新障碍物的Y位置
+            _obstacle4.UpdatePosition2(10);  
+            OnPropertyChanged(nameof(ObstacleX4)); 
+            OnPropertyChanged(nameof(ObstacleY4)); 
 
            //碰撞检测
            if (CheckCollision())
@@ -175,9 +169,7 @@ public partial class GameThreeViewModel :ViewModelBase
                  GameOver();
                  return;
             }
-            
-
-
+           
             // 限制小球在屏幕内跳跃，防止超出边界
            if (_ball.Y + _ball.Height > WindowHeight) // 检查是否触地
            {
@@ -191,10 +183,10 @@ public partial class GameThreeViewModel :ViewModelBase
                _ball.Velocity = 0; // 停止上升
            }
         }
+        
         // 碰撞检测逻辑
         public bool CheckCollision()
         {
-            // 遍历所有障碍物，检查与每个障碍物的碰撞
             var obstacles = new[] { _obstacle1, _obstacle2, _obstacle3, _obstacle4 };
 
             foreach (var obstacle in obstacles)
@@ -214,11 +206,10 @@ public partial class GameThreeViewModel :ViewModelBase
                 // 如果小球在水平和垂直范围内，则发生碰撞
                 if (isBallInHorizontalRange && isBallInVerticalRange)
                 {
-                    return true; // 发生碰撞，返回 true
+                    return true; 
                 }
             }
-
-            return false; // 如果没有与任何障碍物发生碰撞，则返回 false
+            return false; 
         }
         
         
@@ -251,24 +242,25 @@ public partial class GameThreeViewModel :ViewModelBase
         {
             if (_isGameWon || _isGameOver)
             {
-                return; // 如果游戏结束，停止计时
+                return; 
             }
             
-            // 更新游戏时间
             _timeElapsedInSeconds += SecondsPerFrame;
-
-// 如果游戏时间已达到 30秒并且没有发生碰撞，则触发胜利
+            
             if (_timeElapsedInSeconds >= GameDurationInSeconds)
             {
-                if (!CheckCollision()) // 如果没有碰撞发生
+                if (!CheckCollision()) 
                 {
-                    GameWon(); // 游戏胜利
+                    GameWon(); 
                     
                 }
             }
-
-            // 你可以在这里处理每帧需要执行的其他游戏逻辑
             Update();
+        }
+        
+        public int GetIntegerValue(object value)
+        {
+            return (int)value;  // 强制将对象转换为整数
         }
         
         
